@@ -1,0 +1,74 @@
+name: "Github Deployments manager"
+description: "Create and Change state of Github Deployments."
+inputs:
+  repo:
+    description: "Repository name"
+    required: true
+    default: ""
+
+  repo-owner:
+    description: "Repository owner"
+    required: true
+    default: ""
+
+  ref:
+    description: "The ref parameter can be any named branch, tag, or SHA. At GitHub we often deploy branches and verify them before we merge a pull request."
+    required: true
+    default: ""
+
+  github-token:
+    description: "GitHub App user access tokens / GitHub App installation access tokens / Fine-grained personal access tokens"
+    required: true
+    default: ""
+
+  auto_merge:
+    description: "The 'auto_merge' parameter is used to ensure that the requested ref is not behind the repository's default branch. If the ref is behind the default branch for the repository, we will attempt to merge it for you. If the merge succeeds, the API will return a successful merge commit. If merge conflicts prevent the merge from succeeding, the API will return a failure response"
+    required: false
+    default: "false"
+
+  payload:
+    description: "The 'payload' parameter is available for any extra information that a deployment system might need. It is a JSON text field that will be passed on when a deployment event is dispatched"
+    required: false
+    default: ""
+
+  task:
+    description: "The 'task' parameter is used by the deployment system to allow different execution paths. In the web world this might be 'deploy:migrations' to run schema changes on the system. In the compiled world this could be a flag to compile an application with debugging enabled"
+    required: false
+    default: "deploy"
+
+  set-state:
+    description: "Change/set Deployment state (bool)"
+    required: false
+    default: "false"
+
+  state:
+    description: "The state of the status. When you set a transient deployment to inactive, the deployment will be shown as destroyed in GitHub. Can be one of: error, failure, inactive, in_progress, queued, pending, success"
+    required: false
+    default: ""
+
+  description:
+    description: "A short description of the status. The maximum description length is 140 characters"
+    required: false
+    default: ""
+
+  environment:
+    description: "Deployment environment parameter"
+    required: true
+    default: ""
+
+  deployment_id:
+    description: "Deployment ID"
+    required: false
+    default: ""
+
+outputs:
+  state:
+    description: "Deployment state"
+  status:
+    description: "Github Deployment API status code"
+  deployment_id:
+    description: "New Github Deployment ID"
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
